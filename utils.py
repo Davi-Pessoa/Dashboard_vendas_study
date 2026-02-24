@@ -14,7 +14,7 @@ df_rec_mensal = df.set_index('Data da Compra').groupby(pd.Grouper(freq='M'))['Pr
 df_rec_mensal['Ano'] = df_rec_mensal['Data da Compra'].dt.year
 df_rec_mensal['Mes'] = df_rec_mensal['Data da Compra'].dt.month_name()
 
-print(df_rec_mensal)
+#print(df_rec_mensal)
 
 
 #formatação de números
@@ -25,3 +25,14 @@ def format_number(value, prefix = ''):
             return f"{prefix}{value:.2f}{unit}"
         value /= 1000
     return f"{prefix}{value:.2f}Milhões"         
+
+
+# 3-Dataframe para receita por categoria
+
+df_rec_categoria = df.groupby('Categoria do Produto')[['Preço']].sum().sort_values('Preço', ascending=False)
+
+
+# 4-Dataframe sobre os vendedores
+
+df_vendedores = pd.DataFrame(df.groupby('Vendedor')['Preço'].agg(['sum', 'count']))
+print(df_vendedores)
