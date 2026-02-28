@@ -2,13 +2,37 @@ import streamlit as st
 import plotly.express as px
 from dataset import df
 from utils import format_number
-from graficos import grafico_map_estado , grafico_rec_mensal,    grafico_rec_estado, grafico_rec_categoria, grafico_rec_vendedores
+from graficos import grafico_map_estado , grafico_rec_mensal,grafico_rec_estado, grafico_rec_categoria, grafico_rec_vendedores, grafico_vendas_vendedores
 
 
 
 st.set_page_config(layout="wide")
 st.title("Dashboard de Vendas")
 
+#filtros
+
+st.sidebar.title("FILTROS")
+
+filtro_vendedor = st.sidebar.multiselect(
+    "Selecione o vendedor",
+    df['Vendedor'].unique(),
+    placeholder="Selecione o vendedor"
+)
+
+
+if filtro_vendedor:
+    df = df[df['Vendedor'].isin(filtro_vendedor)]
+
+
+
+
+
+
+
+
+
+    
+#visualização dos dados
 aba1, aba2, aba3 = st.tabs(['Dataset', 'Receita', 'Vendedores'])
 
 with aba1:
@@ -29,3 +53,6 @@ with aba3:
     coluna1, coluna2 = st.columns(2)
     with coluna1:
         st.plotly_chart(grafico_rec_vendedores)
+
+    with coluna2:
+        st.plotly_chart(grafico_vendas_vendedores)

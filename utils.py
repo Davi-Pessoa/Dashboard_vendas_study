@@ -1,5 +1,8 @@
 from dataset import df  
 import pandas as pd
+import streamlit as st
+import time
+
 
 # 1-Dataframe para receita por estado
 
@@ -35,4 +38,20 @@ df_rec_categoria = df.groupby('Categoria do Produto')[['Preço']].sum().sort_val
 # 4-Dataframe sobre os vendedores
 
 df_vendedores = pd.DataFrame(df.groupby('Vendedor')['Preço'].agg(['sum', 'count']))
-print(df_vendedores)
+ 
+#print(df)
+
+#função para converter Arquivo CSV
+
+@st.cache_data
+def convert_csv(df):
+    return df.to_csv().encode('utf-8')  
+
+def mensagem_sucesso():
+    success = st.success(
+        "Download do arquivo CSV realizado com sucesso!",
+        icon="✅"
+        )
+    
+    time.sleep(3)
+    success.empty()
